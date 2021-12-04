@@ -7,3 +7,6 @@ project(aoc2021)
 
 add_executable(day1 day1/main.cpp)
 add_executable(day2 day2/main.cpp)
+add_executable(day2obf day2/obf.cpp)
+add_executable(day3 day3/main.cpp)
+target_compile_options(day3 PRIVATE -march=native)
