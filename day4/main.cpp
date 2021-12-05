@@ -75,6 +75,7 @@ int main() {
 			break;
 	}
 
+	// Part 1/2
 	bool part1Done = false;
 	for (int currentNumber = 0; currentNumber < chosenNumbers.size(); currentNumber++) {
 		__m256i boardCompare = _mm256_set1_epi8(chosenNumbers[currentNumber]);
