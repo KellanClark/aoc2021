@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <bit>
-#include <bitset>
 
 const unsigned segmentPatters[10] = {
 	0b1110111, // 0
