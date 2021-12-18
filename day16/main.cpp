@@ -67,6 +67,8 @@ unsigned long parsePacket() {
 			return operands[0] == operands[1];
 		}
 	}
+
+	return 0;
 }
 
 int main() {
