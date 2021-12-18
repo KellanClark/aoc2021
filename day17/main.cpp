@@ -4,7 +4,7 @@
 #include <algorithm>
 
 int main() {
-	std::fstream inFile{"input", std::ios::in};
+	std::fstream inFile{"../day17/input", std::ios::in};
 
 	int targetX, targetMaxX, targetY, targetMaxY;
 	inFile.ignore(15);
@@ -16,7 +16,7 @@ int main() {
 	inFile.ignore(2);
 	inFile >> targetMaxY;
 
-	// Part 1
+	// Part 1/2
 	int maxY = 0;
 	int totalVelocities = 0;
 	for (int startVelY = -500; startVelY <= 500; startVelY++) {
