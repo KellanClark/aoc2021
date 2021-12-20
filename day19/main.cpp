@@ -10,7 +10,7 @@
 struct Point { // I could use an array, but this is more readable
 	int x, y, z;
 
-	bool operator< (const Point &right) {
+	bool operator< (const Point &right) const {
 		if (this->x < right.x) {
 			return true;
 		} else if (this->y < right.y) {
@@ -22,7 +22,7 @@ struct Point { // I could use an array, but this is more readable
 		}
 	}
 
-	bool operator==(const Point &right) {
+	bool operator==(const Point &right) const {
 		return (this->x == right.x) && (this->y == right.y) && (this->z == right.z);
 	}
 };
@@ -77,7 +77,18 @@ int main() {
 
 	// Make all coordinates from the first scanner known
 	std::vector<Point> knownPoints = input[0];
-	std::sort(knownPoints.begin(), knownPoints.end());
+	std::sort(knownPoints.begin(), knownPoints.end() - 1, [](const auto &left, const auto &right) {
+		return (bool)left.x;
+		if (left.x < right.x) {
+			return true;
+		} else if (left.y < right.y) {
+			return true;
+		} else if (left.z < right.z) {
+			return true;
+		} else {
+			return false;
+		}
+	});
 	input.erase(input.begin());
 	std::vector<Point> convertedPoints;
 
@@ -98,8 +109,8 @@ int main() {
 						}
 						std::sort(convertedPoints.begin(), convertedPoints.end());
 
-						std::vector<Point> intersection;
-						std::set_intersection(knownPoints.begin(), knownPoints.end(), convertedPoints.begin(), convertedPoints.end(), intersection.begin());
+						std::vector<Point> intersection = {{0, 0, 0}};
+						std::set_intersection(knownPoints.begin(), knownPoints.end(), convertedPoints.begin(), convertedPoints.end(), std::back_inserter(intersection));
 						if (intersection.size() >= 12) {
 							knownPoints.insert(knownPoints.end(), convertedPoints.begin(), convertedPoints.end());
 							std::sort(knownPoints.begin(), knownPoints.end());
