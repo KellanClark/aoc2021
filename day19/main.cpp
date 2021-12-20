@@ -10,7 +10,9 @@
 struct Point { // I could use an array, but this is more readable
 	int x, y, z;
 
-	bool operator< (const Point &right) const {
+	auto operator<=>(const Point&, const Point&) = default;
+
+	/*bool operator< (const Point &right) const {
 		if (this->x < right.x) {
 			return true;
 		} else if (this->y < right.y) {
@@ -24,7 +26,7 @@ struct Point { // I could use an array, but this is more readable
 
 	bool operator==(const Point &right) const {
 		return (this->x == right.x) && (this->y == right.y) && (this->z == right.z);
-	}
+	}*/
 };
 
 Point (*(rotations[24]))(Point) = {
