@@ -6,14 +6,16 @@
 #include <vector>
 #include <array>
 #include <algorithm>
+#include <tuple>
 
 struct Point { // I could use an array, but this is more readable
 	int x, y, z;
 
-	auto operator<=>(const Point&, const Point&) = default;
+	//auto operator<=>(const Point&, const Point&) = default;
 
-	/*bool operator< (const Point &right) const {
-		if (this->x < right.x) {
+	bool operator< (const Point &right) const {
+		return std::tie(x,y,z) < std::tie(right.x, right.y, right.z);
+		/*if (this->x < right.x) {
 			return true;
 		} else if (this->y < right.y) {
 			return true;
@@ -21,12 +23,12 @@ struct Point { // I could use an array, but this is more readable
 			return true;
 		} else {
 			return false;
-		}
+		}*/
 	}
 
 	bool operator==(const Point &right) const {
 		return (this->x == right.x) && (this->y == right.y) && (this->z == right.z);
-	}*/
+	}
 };
 
 Point (*(rotations[24]))(Point) = {
@@ -79,18 +81,7 @@ int main() {
 
 	// Make all coordinates from the first scanner known
 	std::vector<Point> knownPoints = input[0];
-	std::sort(knownPoints.begin(), knownPoints.end() - 1, [](const auto &left, const auto &right) {
-		return (bool)left.x;
-		if (left.x < right.x) {
-			return true;
-		} else if (left.y < right.y) {
-			return true;
-		} else if (left.z < right.z) {
-			return true;
-		} else {
-			return false;
-		}
-	});
+	std::sort(knownPoints.begin(), knownPoints.end());
 	input.erase(input.begin());
 	std::vector<Point> convertedPoints;
 
@@ -99,6 +90,7 @@ int main() {
 			bool found = false;
 			for (Point known : knownPoints) {
 				for (Point unknown : input[scanner]) {
+					//printf("Trying (%d, %d, %d) and (%d, %d, %d)\n", known.x, known.y, known.z, unknown.x, unknown.y, unknown.z);
 					int diffX = unknown.x - known.x;
 					int diffY = unknown.y - known.y;
 					int diffZ = unknown.z - known.z;
@@ -114,6 +106,7 @@ int main() {
 						std::vector<Point> intersection = {{0, 0, 0}};
 						std::set_intersection(knownPoints.begin(), knownPoints.end(), convertedPoints.begin(), convertedPoints.end(), std::back_inserter(intersection));
 						if (intersection.size() >= 12) {
+							printf("Found overlap\n");
 							knownPoints.insert(knownPoints.end(), convertedPoints.begin(), convertedPoints.end());
 							std::sort(knownPoints.begin(), knownPoints.end());
 							knownPoints.erase(std::unique(knownPoints.begin(), knownPoints.end()), knownPoints.end());
